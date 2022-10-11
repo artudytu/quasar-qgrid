@@ -6,7 +6,7 @@
                :row-key="row_key?row_key:'name'" :class="classes" :visible-columns="visible_columns"
                :separator="separator" :dense="dense" :dark="dark" :flat="flat" :bordered="bordered"
                :square="square" :selection="selection_prop" v-model:selected="selected_prop" :filter="filter"
-               v-bind="$attrs" v-model:pagination="pagination_this"
+               v-bind="$attrs"
                @request="onRequest"
       >
 
@@ -309,22 +309,20 @@ function wrapCsvValue(val, formatFn) {
 
 export default defineComponent({
   name: "QGrid",
-  props: ['data', 'columns', 'file_name', 'csv_download', 'excel_download', 'columns_filter', 'header_filter', 'draggable', 'draggable_columns', 'classes', 'separator', 'dense', 'dark', 'flat', 'bordered', 'square', 'selection', 'selected', 'fullscreen', 'global_search', 'groupby_filter', 'visible_columns', 'pagination', 'loading', 'row_key'],
+  props: [
+    'data', 'columns', 'file_name', 'csv_download', 'excel_download', 'columns_filter', 'header_filter',
+    'draggable', 'draggable_columns', 'classes', 'separator', 'dense', 'dark', 'flat', 'bordered', 'square', 'selection',
+    'selected', 'fullscreen', 'global_search', 'groupby_filter', 'visible_columns', 'loading', 'row_key'
+  ],
   setup(props) {
 
     // onMounted(()=>{
     //   this.Sorting();
     // })
 
-    const pagination_this = computed({
-      get: () => props.pagination,
-      set: () => {
-      },
-    });
 
     return {
       filter_data: ref({}),
-      pagination_this,
       uuid: ref(''),
       column_options: ref({}),
       column_options_selected: ref({}),
