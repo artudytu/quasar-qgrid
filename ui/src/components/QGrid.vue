@@ -93,6 +93,7 @@
               <q-input
                 v-if="!col.hasOwnProperty('filter_type') || col.filter_type==='text' || col.filter_type==='function'"
                 dense color="teal" class="q-pl-xs q-pr-xs" filled v-model="filter_data[col.field]"
+                :debounce="filter_debounce"
               >
                 <template v-if="filter_data[col.field]" v-slot:append>
                   <q-icon name="cancel" @click.stop="filter_data[col.field] = ''" class="cursor-pointer"/>
@@ -185,8 +186,9 @@
         <template v-slot:top-right="props" v-if="excel_download || csv_download || fullscreen || global_search">
 
 
-           <q-input filled v-if="global_search" borderless dense debounce="300" v-model="filter" class="q-mr-md"
-                    placeholder="Search">
+           <q-input filled v-if="global_search" borderless dense :debounce="filter_debounce" v-model="filter"
+                    class="q-mr-md" placeholder="Search"
+           >
             <template v-slot:append>
               <q-icon name="search"/>
             </template>
@@ -314,7 +316,8 @@ export default defineComponent({
   props: [
     'data', 'columns', 'file_name', 'csv_download', 'excel_download', 'columns_filter', 'header_filter',
     'draggable', 'draggable_columns', 'classes', 'separator', 'dense', 'dark', 'flat', 'bordered', 'square', 'selection',
-    'selected', 'fullscreen', 'global_search', 'groupby_filter', 'visible_columns', 'loading', 'row_key'
+    'selected', 'fullscreen', 'global_search', 'groupby_filter', 'visible_columns', 'loading', 'row_key',
+    'filter_debounce'
   ],
   setup(props) {
 
