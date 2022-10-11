@@ -90,8 +90,10 @@
 
             </q-th>
             <q-th :key="col.name" v-for="col in props.cols" style="padding: 0px 0px 0px 0px;">
-              <q-input v-if="!col.hasOwnProperty('filter_type') || col.filter_type=='text'" dense color="teal"
-                       class="q-pl-xs q-pr-xs" filled v-model="filter_data[col.field]">
+              <q-input
+                v-if="!col.hasOwnProperty('filter_type') || col.filter_type==='text' || col.filter_type==='function'"
+                dense color="teal" class="q-pl-xs q-pr-xs" filled v-model="filter_data[col.field]"
+              >
                 <template v-if="filter_data[col.field]" v-slot:append>
                   <q-icon name="cancel" @click.stop="filter_data[col.field] = ''" class="cursor-pointer"/>
                 </template>
@@ -386,6 +388,17 @@ export default defineComponent({
             if (table_columns[i] in self.filter_data && typeof self.filter_data[table_columns[i]].from!='string' && typeof self.filter_data[table_columns[i]].to!='string' && !(parseFloat(item[table_columns[i]]) >= self.filter_data[table_columns[i]].from && parseFloat(item[table_columns[i]]) <= self.filter_data[table_columns[i]].to)) {
               return false;
             }
+          }
+          if (
+            table_columns[i] in self.filter_data 
+            && self.final_column[i].hasOwnProperty('filter_type') 
+            && self.final_column[i].filter_type === 'function'
+            ) {
+            const data = item[table_columns[i]];
+            const fnc = self.final_column[i].filter_data;
+            const filterVal = self.filter_data[table_columns[i]];
+            
+            return fnc(filterVal, data);
           }
         }
         return true
