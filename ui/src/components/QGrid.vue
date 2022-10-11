@@ -6,7 +6,7 @@
                :row-key="row_key?row_key:'name'" :class="classes" :visible-columns="visible_columns"
                :separator="separator" :dense="dense" :dark="dark" :flat="flat" :bordered="bordered"
                :square="square" :selection="selection_prop" v-model:selected="selected_prop" :filter="filter"
-               v-model:pagination="pagination_this"
+               v-bind="$attrs" v-model:pagination="pagination_this"
                @request="onRequest"
       >
 
